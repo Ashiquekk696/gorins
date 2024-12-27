@@ -6,13 +6,14 @@ import 'package:gorins/presentation/auth/providers/auth_provider.dart';
 import 'package:gorins/routes.dart';
 import 'package:provider/provider.dart';
 
+/// The LoginScreen widget is a StatefulWidget responsible for building the login UI.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
+/// State class for LoginScreen that manages form state and user interaction logic.
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
@@ -24,8 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late AuthProvider authProvider;
-  bool isEmailInValid = false;
-  bool isPasswordInValid = false;
+
+  ///[isEmailInValid] and [isPasswordInValid] are used to track email and password validation status.
+  ///Although [Validator] helps in valdiation,some complexity in [CustomTextField] UI has caused the usage of these flags.
+  bool isEmailInValid = false;  // Flag to track email validation status
+  bool isPasswordInValid = false;  // Flag to track PASSWORD validation status
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Title text at the top
+              /// Title text at the top
               const Text(
                 "Login with email",
                 style: AppTextStyle.heading,
               ),
-              10.0.h, // Adding space below the title
-
-              // TextFields with white background and elevation
+              10.0.h,  
+ 
               CustomTextField(
                 controller: emailController,
                 validator: Validator.validateEmail,
@@ -53,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   isEmailInValid = v;
                 },
               ),
-              15.0.h, // Adding space between text fields
+              15.0.h,  
               CustomTextField(
                 hasErrorCallback: (v) {
                   isPasswordInValid = v;
@@ -76,18 +79,20 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               20.0.h,
 
-              // Login Button
+              // [Login] Button
               authProvider.isLoading
                   ? const CircularProgressIndicator()
                   : CustomButton(
                       text: "Login",
-                      onPressed: () {
-                        log(isEmailInValid.toString());
-                        if (formKey.currentState!.validate() &&
-                            !isEmailInValid &&
-                            !isPasswordInValid) {
-                          authProvider.signIn(emailController.text.trim(),
-                              passwordController.text.trim(), context);
+                      onPressed: () { 
+                        if (formKey.currentState!.validate() &&    // Validate form 
+                            !isEmailInValid &&                    // Ensure email is valid
+                            !isPasswordInValid) {                 // Ensure password is valid
+                          authProvider.signIn(
+                            emailController.text.trim(),          // Trimmed email input
+                            passwordController.text.trim(),       // Trimmed password input
+                            context,                             // Context for navigation
+                          );
                         }
                       },
                     ),

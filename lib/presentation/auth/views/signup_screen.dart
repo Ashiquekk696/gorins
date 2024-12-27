@@ -18,6 +18,10 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  
+  ///[isEmailInValid],[isNameInValid] and [isPasswordInValid] are used to track email,name and password validation status.
+  ///Although [Validator] helps in valdiation,some complexity in [CustomTextField] UI has caused the usage of these flags.
   bool isEmailInValid = false;
   bool isNameInValid = false;
   bool isPasswordInValid = false;
@@ -40,16 +44,14 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Circle avatar with person icon
-
                 const Text(
                   "Sign up with email",
                   style: AppTextStyle.heading,
                 ),
-                20.0.h, // Space below the avatar
+                20.0.h,  
                 GestureDetector(
                   onTap: authProvider
-                      .pickProfileImage, // Function to pick image on tap
+                      .pickProfileImage, /// Function to pick image on tap
                   child: CircleAvatar(
                     radius: 50,
                     backgroundColor: AppColors.shadow,
@@ -67,15 +69,11 @@ class _SignupScreenState extends State<SignupScreen> {
                             : null,
                   ),
                 ),
-
-                // Title text
-
-                15.0.h, // Space below the title
-
-                // TextFields with white background and elevation
+                15.0.h,  
                 CustomTextField(
                     controller: nameController,
                     hasErrorCallback: (hasError) {
+                      /// Update the error STATUS
                       isNameInValid = hasError;
                     },
                     hintText: "Name",
@@ -103,21 +101,21 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 30.0.h,
 
-                // Signup Button
+                /// [Signup] Button
                 authProvider.isLoading
                     ? const CircularProgressIndicator()
                     : CustomButton(
                         text: "Sign Up",
                         onPressed: () {
-                          if (formKey.currentState!.validate() &&
+                             if (formKey.currentState!.validate() &&
                               !isEmailInValid &&
                               !isNameInValid &&
                               !isPasswordInValid) {
                             authProvider.signUp(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                username: nameController.text,
-                                context: context);
+                                email: emailController.text,       /// Email input
+                                password: passwordController.text, /// Password input
+                                username: nameController.text,     /// Name input
+                                context: context);                 /// Navigation context
                           }
                         },
                       ),

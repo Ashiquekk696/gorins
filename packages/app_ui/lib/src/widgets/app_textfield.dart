@@ -31,13 +31,26 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool _obscureText = true; // Default value for obscureText
-  String? _errorMessage; // Holds the validation error message
+  bool _obscureText = true; /// Default value for obscureText
+  String? _errorMessage; /// Holds the validation error message
   bool hasError() {
     return _errorMessage != null && _errorMessage!.isNotEmpty;
   }
 
   @override
+/// Builds the widget tree for the custom text field, which includes a 
+/// container with a text form field and potentially an error message.
+/// 
+/// The text form field is configured with various properties such as 
+/// controller, keyboard type, and obscure text for passwords. It also 
+/// handles validation and changes in input, updating the error message 
+/// and calling a callback if there's an error. The decoration includes 
+/// customizable hint styles and suffix icons, with specific handling 
+/// for password visibility toggling.
+/// 
+/// Returns a [Column] widget containing the text field and error message 
+/// if validation fails.
+
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             validator: (value) {
               final validationResult = widget.validator?.call(value);
               setState(() {
-                _errorMessage = validationResult; // Update the error message
+                _errorMessage = validationResult; /// Update the error message
               });
               widget.hasErrorCallback?.call(hasError());
               return null;

@@ -17,12 +17,23 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+/// Initializes the state of the widget by setting up dependencies
+/// and calling the superclass's initState method.
+
   void initState() {
     initDependencies();
     super.initState();
   }
 
   @override
+  /// Builds the material app widget tree by providing the auth provider and
+  /// home provider and setting up the routes and initial route.
+  ///
+  /// The [MaterialApp] widget is wrapped in a [MultiProvider] widget which
+  /// provides the [AuthProvider] and [HomeProvider] to its child widgets.
+  ///
+  /// The app's theme is set to a light grey theme and the material 3 design
+  /// language is used. The [LoginScreen] widget is set as the home widget.
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
